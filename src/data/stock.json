@@ -1,0 +1,44 @@
+{
+    "AAPL":{
+        "currentPrice": 155.00,
+        "previousClose": 152.00,
+        "priceHistory": [
+            {"date": "2023-01-15", "price": 150.00, "volume": 1000000},
+            {"date": "2023-01-16", "price": 152.00, "volume": 1200000},
+            {"date": "2023-01-17", "price": 154.00, "volume": 1100000},
+            {"date": "2023-01-18", "price": 155.00, "volume": 1300000}
+           
+        ]
+    },
+    "MSFT":{
+        "currentPrice": 255.00,
+        "previousClose": 252.00,
+        "priceHistory": [
+            {"date": "2023-02-20", "price": 250.00, "volume": 800000},
+            {"date": "2023-02-21", "price": 252.00, "volume": 850000},
+            {"date": "2023-02-22", "price": 254.00, "volume": 900000},
+            {"date": "2023-02-23", "price": 255.00, "volume": 950000}
+        ]
+    },
+    "AMZN":{
+        "currentPrice": 3350.00,
+        "previousClose": 3300.00,
+        "priceHistory": [
+            {"date": "2023-03-10", "price": 3300.00, "volume": 500000},
+            {"date": "2023-03-11", "price": 3325.00, "volume": 550000},
+            {"date": "2023-03-12", "price": 3340.00, "volume": 600000},
+            {"date": "2023-03-13", "price": 3350.00, "volume": 650000}
+        ]
+    },
+    "GOOGL":{
+        "currentPrice": 2850.00,
+        "previousClose": 2800.00,
+        "priceHistory": [
+            {"date": "2023-04-05", "price": 2800.00, "volume": 700000},
+            {"date": "2023-04-06", "price": 2825.00, "volume": 750000},
+            {"date": "2023-04-07", "price": 2840.00, "volume": 800000},
+            {"date": "2023-04-08", "price": 2850.00, "volume": 850000}
+        ]
+    }
+
+}
