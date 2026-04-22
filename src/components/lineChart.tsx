@@ -1,20 +1,9 @@
-import stocksData from "../data/stock.json";
+import { useStock, type Ticker } from "@/hooks/useStock";
 import { Chart, Series, Title, XAxis, YAxis, Legend } from "@highcharts/react";
 
-export type Ticker = keyof typeof stocksData;
 
 function LineChart({ ticker }: { ticker: Ticker }) {
-  const priceHistory = stocksData[ticker].priceHistory;
-  const prices = priceHistory.map((item) => {
-    return item.price;
-  });
-  const dates = priceHistory.map((item) =>
-    new Date(item.date).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    }),
-  );
+  const {dates,prices}= useStock(ticker);
 
   return (
         <div  className= "max-w-3xl w-full mx-auto">
@@ -30,7 +19,6 @@ function LineChart({ ticker }: { ticker: Ticker }) {
         color="#007bff"
         dataLabels={{ enabled: true }}
         type="line"
-        lineWidth={2}
       />
     </Chart>
     </div>
