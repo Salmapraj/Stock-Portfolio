@@ -48,7 +48,7 @@ function PortolioForm({
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="default" onClick={handleAddClick}>
+          <Button  className="w-35 my-3" onClick={handleAddClick}>
             Add Stock
           </Button>
         </DialogTrigger>
@@ -92,6 +92,7 @@ function PortolioForm({
                   value={formData.quantity}
                   placeholder="200"
                   required
+                   min={0}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -106,7 +107,7 @@ function PortolioForm({
                   type="number"
                   placeholder="150.00"
                   value={formData.purchasePrice}
-                  required
+                  required min={0}
                   onChange={(e) =>
                     setFormData({
                       ...formData,

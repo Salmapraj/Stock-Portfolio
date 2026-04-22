@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import LineChart from "../components/lineChart";
 import stocksData from "../data/stock.json";
 
@@ -19,8 +18,8 @@ function Dashboard() {
   const tickers = Object.keys(stocksData) as Ticker[];
   const [ticker, setTicker] = useState<Ticker>(tickers[0]);
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <Navbar />
+    <div >
+       
 
       <div className="flex items-center justify-center my-4">
         <Select
