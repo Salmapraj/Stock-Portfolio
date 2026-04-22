@@ -1,131 +1,60 @@
 import { SquarePen, Trash } from "lucide-react";
-import portfoliodata from "../data/portfolio.json";
-import { Button } from "./ui/button";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import type { Ticker } from "@/hooks/useStock";
 import stocksData from "../data/stock.json";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogClose,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import type { stock } from "../types/stock";
 import { useState } from "react";
+import PortolioForm from "./PortolioForm";
+import { usePortfolio } from "@/hooks/usePortfolio";
+
 function PotfolioTable() {
-  const [addModal, SetAddModal] = useState(false);
+  const { deleteStock, addStock, editStock,portfolio } = usePortfolio();
+
+  const [open, setOpen] = useState(false);
+  const [editing, setEditing] = useState<stock | null>(null);
 
   const [formData, setFormData] = useState({
+    id: "",
     ticker: "",
     name: "",
-    quantity: "",
-    purchasePrice: "",
+    quantity: 0,
+    purchasePrice: 0.0,
     datePurchased: "",
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newData = {
-      ticker: formData.ticker,
-      name: formData.name,
-      quantity: Number(formData.quantity),
-      purchasedPrice: Number(formData.purchasePrice),
-      datePurchased: formData.datePurchased,
+      ...formData,
+  id: editing ? editing.id : Date.now().toString(),
     };
-    console.log("Form Data:", newData);
+    {editing? editStock(newData,editing.id):    addStock(newData);
+}
+    setFormData({
+      id: "",
+      ticker: "",
+      name: "",
+      quantity: 0,
+      purchasePrice: 0.0,
+      datePurchased: "",
+    });
+    setOpen(false);
+
   };
+
+  
   return (
     <div>
       <h1>My Stocks</h1>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="default" onClick={() => SetAddModal(true)}>
-            Add Product
-          </Button>
-        </DialogTrigger>
 
-        <DialogContent className="sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle>Add New Stock</DialogTitle>
-            <DialogDescription>
-              Fill in the details for the new stock you want to add.
-            </DialogDescription>
-          </DialogHeader>
-
-          <form onSubmit={handleSubmit}>
-            <FieldGroup className="grid grid-cols-2">
-              <Field>
-                <FieldLabel>Ticker Symbol</FieldLabel>
-                <Input
-                  placeholder="AAPL"
-                  required
-                  onChange={(e) =>
-                    setFormData({ ...formData, ticker: e.target.value })
-                  }
-                />
-              </Field>
-              <Field>
-                <FieldLabel> Company Name</FieldLabel>
-                <Input
-                  placeholder="Apple Inc"
-                  required
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                />
-              </Field>
-            </FieldGroup>
-
-            <FieldGroup className="grid grid-cols-2">
-              <Field>
-                <FieldLabel>Quantity</FieldLabel>
-                <Input
-                  placeholder="200"
-                  required
-                  onChange={(e) =>
-                    setFormData({ ...formData, quantity: e.target.value })
-                  }
-                />
-              </Field>
-              <Field>
-                <FieldLabel> Purchase Price</FieldLabel>
-                <Input
-                  placeholder="150.00"
-                  required
-                  onChange={(e) =>
-                    setFormData({ ...formData, purchasePrice: e.target.value })
-                  }
-                />
-              </Field>
-            </FieldGroup>
-
-            <FieldGroup>
-              <Field>
-                <FieldLabel> Purchased date</FieldLabel>
-                <Input
-                  type="date"
-                  required
-                  onChange={(e) =>
-                    setFormData({ ...formData, datePurchased: e.target.value })
-                  }
-                />
-              </Field>
-            </FieldGroup>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DialogClose>
-
-              <Button type="submit">Add Stock</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-
+      <PortolioForm
+        open={open}
+        setOpen={setOpen}
+        handleSubmit={handleSubmit}
+        editing={editing}
+        setFormData={setFormData}
+setEditing={setEditing}     
+   formData={formData}
+      />
       <table className="min-w-full border-collapse border border-gray-400">
         <thead>
           <tr className="bg-gray-100 ">
@@ -133,20 +62,22 @@ function PotfolioTable() {
             <th>Company Name</th>
             <th>Qty</th>
             <th>Purchase Rate</th>
-
             <th>Current Price</th>
+            <th>Purchased Date</th>
             <th>Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          {portfoliodata.map((stock) => (
+          {portfolio.map((stock: stock) => (
             <tr key={stock.id}>
               <td>{stock.ticker}</td>
               <td>{stock.name}</td>
               <td>{stock.quantity}</td>
               <td>{stock.purchasePrice}</td>
-              <td>{stocksData[stock.ticker as Ticker].currentPrice}</td>
+              <td>
+                {stocksData[stock.ticker as Ticker]?.currentPrice ?? "N/A"}
+              </td>
               <td>
                 {new Date(stock.datePurchased).toLocaleDateString("en-US", {
                   year: "numeric",
@@ -155,8 +86,16 @@ function PotfolioTable() {
                 })}
               </td>
               <td className="flex gap-2">
-                <SquarePen size={14} />
-                <Trash size={14} />
+                <SquarePen onClick={() =>{
+                  setEditing(stock)
+                  setOpen(true)
+                  setFormData(stock)
+                }} size={14} />
+                <Trash
+                  onClick={() => deleteStock(stock.id)}
+                  size={14}
+                  className="text-red-500"
+                />
               </td>
             </tr>
           ))}

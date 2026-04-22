@@ -39,6 +39,16 @@
             {"date": "2023-04-07", "price": 2840.00, "volume": 800000},
             {"date": "2023-04-08", "price": 2850.00, "volume": 850000}
         ]
-    }
+    },
+    "TSLA": {
+    "currentPrice": 210.00,
+    "previousClose": 205.00,
+    "priceHistory": [
+        {"date": "2023-05-10", "price": 200.00, "volume": 900000},
+        {"date": "2023-05-11", "price": 203.00, "volume": 950000},
+        {"date": "2023-05-12", "price": 206.00, "volume": 880000},
+        {"date": "2023-05-13", "price": 210.00, "volume": 920000}
+    ]
+}
 
 }

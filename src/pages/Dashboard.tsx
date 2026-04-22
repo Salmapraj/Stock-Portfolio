@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar";
 import LineChart from "../components/lineChart";
-import portfolioData from "../data/portfolio.json";
+import stocksData from "../data/stock.json";
+
 import {
   Select,
   SelectContent,
@@ -15,9 +16,8 @@ import { useState } from "react";
 import ColumnChart from "@/components/columnChart";
 
 function Dashboard() {
-  const [ticker, setTicker] = useState<Ticker>(
-    portfolioData[0].ticker as Ticker,
-  );
+  const tickers = Object.keys(stocksData) as Ticker[];
+  const [ticker, setTicker] = useState<Ticker>(tickers[0]);
   return (
     <div className="bg-gray-50 min-h-screen">
       <Navbar />
@@ -34,9 +34,9 @@ function Dashboard() {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Tickers</SelectLabel>
-              {portfolioData.map((item) => (
-                <SelectItem key={item.ticker} value={item.ticker}>
-                  {item.ticker}
+              {tickers.map((item) => (
+                <SelectItem key={item} value={item}>
+                  {item}
                 </SelectItem>
               ))}
             </SelectGroup>
